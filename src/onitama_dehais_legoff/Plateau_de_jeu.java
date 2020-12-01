@@ -28,13 +28,16 @@ public class Plateau_de_jeu {
     } 
    
     
-    void viderPlateau_de_jeu() {
+    void viderPlateau_de_jeu() { //remttre les pions à leur position de départ
+        //mettre les 5 pions de chaque joueur + mettre les noms des rois
         for (int i = 0; i < COTE; i++) {
             for (int j = 0; j < COTE; j++) {
-                TabCase[i][j].PIONCOURANT = null;
+                TabCase[i][j].PIONCOURANT = null;//gros nul le coco
             }
         }
     }
+    
+    //en réponse à la méthode au dessus, rajouter une méthode "initialiser pion" pour placer les pions à leur etat initial
 
     
     void afficherPlateau_de_jeuSurConsole() {
