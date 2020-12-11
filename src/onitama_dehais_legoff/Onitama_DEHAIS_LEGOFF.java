@@ -16,7 +16,7 @@ public class Onitama_DEHAIS_LEGOFF {
      */
     public static void main(String[] args) {
 
-        System.out.println("Vous entrez dans le jeux puissance 4 ! :\uD83D\uDE03");
+        System.out.println("Onitama :\uD83D\uDE03");
         Partie une_partie = new Partie();
         une_partie.debuterPartie();
         

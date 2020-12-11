@@ -12,7 +12,6 @@ import java.util.Scanner;
  *
  * @author cocol
  */
-
 public class Partie {
 
     public final static int COTE = 5;
@@ -20,13 +19,17 @@ public class Partie {
     public Joueur Listejoueurs[] = new Joueur[2]; //2 joueurs
     public Joueur JOUEURCOURANT; //joueur actuel
     Plateau_de_jeu plateau_de_jeu = new Plateau_de_jeu(); //init plateau
-    
+
     int[] idCartes = new int[5]; //5 tirages sans remise
     public Carte[] Cartesenjeu = new Carte[5]; //5 cartes courantes
-    
+
     public Pion PIONDEBASE = new Pion();
-    
-    /**********************************/
+    public Carte CARTEENATTENTE = new Carte(new int[][]{{0, 0}, {0, 0}}, "CARTEENATTENTE");
+    public Carte CARTECOURANTE = new Carte(new int[][]{{0, 0}, {0, 0}}, "CARTECOURANTE");
+
+    /**
+     * *******************************
+     */
     public Carte[] deck = new Carte[]{TIGRE, DRAGON, CRAPAUD, LAPIN, CRABE, ELEPHANT, OIE, COQ, SINGE, MANTE, CHEVAL, VACHE, GRUE, SANGLIER, ANGUILLE, COBRA};
     //deck construit
     public static Carte TIGRE;
@@ -45,9 +48,10 @@ public class Partie {
     public static Carte SANGLIER;
     public static Carte ANGUILLE;
     public static Carte COBRA;
-    /**********************************/
-    
 
+    /**
+     * *******************************
+     */
     void attribuercoeff() {
         Random r = new Random();
         int coeff;
@@ -65,10 +69,10 @@ public class Partie {
         }
 
     }
-    
-    void attribuercarte () {
+
+    void attribuercarte() {
         for (int i = 0; i > idCartes.length; i++) {
-            Cartesenjeu [i] = deck[idCartes[i]];
+            Cartesenjeu[i] = deck[idCartes[i]];
         }
     }
 
@@ -93,7 +97,6 @@ public class Partie {
     }
 
     void initialiserPartie() {
-        
 
         //Création des joueurs
         Scanner sc = new Scanner(System.in);
@@ -110,10 +113,9 @@ public class Partie {
         System.out.println(J2.NOM + " est de couleur " + J2.COULEUR);
 
         // Les rois sont des conditions de Victoire perte du roi = perdu
-        
         J1.ROIVIVANT = true;
         J2.ROIVIVANT = true;
-        
+
         // Determine qui est le premier joueur
         Random r = new Random();
         boolean le_premier = r.nextBoolean();
@@ -122,7 +124,7 @@ public class Partie {
         } else {
             JOUEURCOURANT = Listejoueurs[1];
         }
-        
+
         //Mise en place du plateau
         plateau_de_jeu.viderPlateau_de_jeu(); //potentiel pblm de null pointer
         plateau_de_jeu.afficherPlateau_de_jeuSurConsole();
@@ -141,26 +143,46 @@ public class Partie {
         }
         return choix;
     }
-/*
-    void jouerPion(int i, int j) { //bordel a idées
-        carte.deplacement
-                //permet d'afficher les déplacements possibles du pion sélectionné
-              if (JOUEURCOURANT == ListeJoueurs [0]) {
-              for (int i=0; i<carte.deplacement.length, i++){
-                  System.out.println("en X : " + carte.deplacement[i][0] + "en Y : " + carte.deplacement[i][1]);
-              }  
-              else {
-                 for (int i=0; i<carte.deplacement.length, i++){
-                      int x = carte.deplacement[i][0];
-                      int x1 = -x; //renversement pour joueur du haut
-                      int y = carte.deplacement[i][1];
-                      int y1 = -y;
-                  System.out.println("en X : " + x1 + "en Y : " + y1);
-              }       
-                      }
-              }
-              
-        plateau_de_jeu.TabCase[i][j];
+
+    void afficherdeplacementspossibles(int i, int j) {
+        //permet d'afficher les déplacements possibles du pion sélectionné
+        if (JOUEURCOURANT == Listejoueurs[0]) {
+            for (int k = 0; k < CARTECOURANTE.DEPLACEMENT.length; k++) {
+                System.out.println("en X : " + CARTECOURANTE.DEPLACEMENT[k][0] + "en Y : " + CARTECOURANTE.DEPLACEMENT[k][1]);
+            }
+        } else {
+            for (int k = 0; k < CARTECOURANTE.DEPLACEMENT.length; k++) {
+                int x = CARTECOURANTE.DEPLACEMENT[k][0];
+                int x1 = -x; //renversement pour joueur du haut
+                int y = CARTECOURANTE.DEPLACEMENT[k][1];
+                int y1 = -y;
+                System.out.println("en X : " + x1 + "en Y : " + y1);
+            }
+        }
+    }
+
+    boolean testaffectation(int i, int j, int lignededeplacmeent) {
+        if (JOUEURCOURANT == Listejoueurs[0]) {
+            int deplacementenX = i + CARTECOURANTE.DEPLACEMENT[lignededeplacmeent][0];
+            int deplacementenY = j + CARTECOURANTE.DEPLACEMENT[lignededeplacmeent][1];
+            if (deplacementenX < 0 || deplacementenX > (COTE - 1) || deplacementenY < 0 || deplacementenY > (COTE - 1)) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            int deplacementenX = i - CARTECOURANTE.DEPLACEMENT[lignededeplacmeent][0];
+            int deplacementenY = j - CARTECOURANTE.DEPLACEMENT[lignededeplacmeent][1];
+            if (deplacementenX < 0 || deplacementenX > (COTE - 1) || deplacementenY < 0 || deplacementenY > (COTE - 1)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
+   /* void jouerPion(int i, int j, int lignededéplacmeent) {
+        if ()
     }*/
 
     boolean tour_de_jeux() {//revoir
@@ -189,9 +211,9 @@ public class Partie {
             plateau_de_jeu.afficherPlateau_de_jeuSurConsole();
 
             JOUEURCOURANT = ProchainJoueur(JOUEURCOURANT);
-        //revoir les conditions de victoire
-        } while (/*plateau_de_jeu.etreGagnantePourJoueur(Listejoueurs[0]) != true && plateau_de_jeu.etreGagnantePourJoueur(Listejoueurs[1]) != true*/ 0<1);
-/*
+            //revoir les conditions de victoire
+        } while (/*plateau_de_jeu.etreGagnantePourJoueur(Listejoueurs[0]) != true && plateau_de_jeu.etreGagnantePourJoueur(Listejoueurs[1]) != true*/0 < 1);
+        /*
         if (plateau_de_jeu.etreGagnantePourJoueur(Listejoueurs[0]) == true && plateau_de_jeu.etreGagnantePourJoueur(Listejoueurs[1]) == true) {
             System.out.println("C'est " + JOUEURCOURANT.NOM + " qui a gagné !");
         } else {
@@ -219,15 +241,14 @@ public class Partie {
         COBRA = new Carte(new int[][]{{1, 1}, {1, -1}, {-1, 0}}, "COBRA");
     }
 
-    public static Joueur getJoueurcourant (Joueur j) {
+    public static Joueur getJoueurcourant(Joueur j) {
         return j;
     }
-    
-    
+
     boolean etreGagnantePourJoueur(Joueur j) {// revoir le fonctionnement
         //metre dans plateau avec qu'un paramètre joueur pour chaque cas
         //ça passera creme je crois
-        
+
         //soit roi mort
         //soit roi adverse sur la bonne case
         Joueur j1 = new Joueur("j1");
@@ -235,29 +256,26 @@ public class Partie {
         j1 = Partie.getJoueurcourant(Listejoueurs[0]);
         j2 = Partie.getJoueurcourant(Listejoueurs[1]);
         if (plateau_de_jeu.TabCase[0][2].PIONCOURANT.ROYAUTE == true && plateau_de_jeu.TabCase[0][2].PIONCOURANT.COULEUR == "bleu") {
-            if (j1.COULEUR == "bleu"){
-                System.out.println("C'est "+j1.NOM+" qui remporte la victoire !");
-            }
-            else {
-                System.out.println("C'est "+j2.NOM+" qui remporte la victoire !"); 
+            if (j1.COULEUR == "bleu") {
+                System.out.println("C'est " + j1.NOM + " qui remporte la victoire !");
+            } else {
+                System.out.println("C'est " + j2.NOM + " qui remporte la victoire !");
             }
         }
-        if (plateau_de_jeu.TabCase[COTE][2].PIONCOURANT.ROYAUTE == true && plateau_de_jeu.TabCase[COTE][2].PIONCOURANT.COULEUR == "rouge") {
-            if (j1.COULEUR == "rouge"){
-                System.out.println("C'est "+j1.NOM+" qui remporte la victoire !");
-            }
-            else {
-                System.out.println("C'est "+j2.NOM+" qui remporte la victoire !"); 
+        if (plateau_de_jeu.TabCase[COTE - 1][2].PIONCOURANT.ROYAUTE == true && plateau_de_jeu.TabCase[COTE - 1][2].PIONCOURANT.COULEUR == "rouge") {
+            if (j1.COULEUR == "rouge") {
+                System.out.println("C'est " + j1.NOM + " qui remporte la victoire !");
+            } else {
+                System.out.println("C'est " + j2.NOM + " qui remporte la victoire !");
             }
         }
         if (j1.ROIVIVANT == false) {
-            System.out.println("C'est "+j2.NOM+" qui remporte la victoire !");
+            System.out.println("C'est " + j2.NOM + " qui remporte la victoire !");
         }
         if (j2.ROIVIVANT == false) {
-            System.out.println("C'est "+j1.NOM+" qui remporte la victoire !");
+            System.out.println("C'est " + j1.NOM + " qui remporte la victoire !");
         }
         return false;
     }
-    
-    
+
 }

@@ -37,12 +37,13 @@ public class Plateau_de_jeu {
             }
         }
         for (int j = 0; j < COTE; j++) {
+            //TabCase[0][j].PIONCOURANT.COULEUR = "rouge";
+            TabCase[COTE-1][j].PIONCOURANT.COULEUR = "bleu";
             TabCase[0][j].PIONCOURANT.COULEUR = "rouge";
-            TabCase[COTE][j].PIONCOURANT.COULEUR = "bleu";
 
         }
         TabCase[0][2].PIONCOURANT.ROYAUTE = true;
-        TabCase[COTE][2].PIONCOURANT.ROYAUTE = true;
+        TabCase[COTE-1][2].PIONCOURANT.ROYAUTE = true;
     }
     
     //en réponse à la méthode au dessus, rajouter une méthode "initialiser pion" pour placer les pions à leur etat initial
@@ -57,15 +58,18 @@ public class Plateau_de_jeu {
     void afficherPlateau_de_jeuSurConsole() {
  
         // boucle inversée : on affiche d'abord la ligne du haut
-        for (int i = COTE; i >= 0; i--) {
+        for (int i = COTE-1; i >= 0; i--) {
             for (int j = 0; j < COTE; j++) {
                 
                 if (TabCase[i][j].PIONCOURANT == null) {
                     System.out.print("\u001B[0m N ");
                 }
                 else {
-                    System.out.print(TabCase[i][j].PIONCOURANT); //revoir ce que ça affiche réellement, si besoin créer else if
+                    System.out.print(TabCase[i][j].PIONCOURANT.COULEUR.substring(0,1));
                 }
+                /*else {
+                    System.out.print(TabCase[i][j].PIONCOURANT); //revoir ce que ça affiche réellement, si besoin créer else if
+                }*/
             }
             System.out.println(" " + (i+1));
         }
