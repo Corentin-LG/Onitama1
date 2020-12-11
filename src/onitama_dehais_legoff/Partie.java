@@ -12,15 +12,64 @@ import java.util.Scanner;
  *
  * @author cocol
  */
-        
+
 public class Partie {
 
-    Joueur Listejoueurs[] = new Joueur[2];
-    Joueur JOUEURCOURANT;
-    Plateau_de_jeu plateau_de_jeu = new Plateau_de_jeu();
+    public final static int COTE = 5;
 
+    public Joueur Listejoueurs[] = new Joueur[2]; //2 joueurs
+    public Joueur JOUEURCOURANT; //joueur actuel
+    Plateau_de_jeu plateau_de_jeu = new Plateau_de_jeu(); //init plateau
     
+    int[] idCartes = new int[5]; //5 tirages sans remise
+    public Carte[] Cartesenjeu = new Carte[5]; //5 cartes courantes
     
+    /**********************************/
+    public Carte[] deck = new Carte[]{TIGRE, DRAGON, CRAPAUD, LAPIN, CRABE, ELEPHANT, OIE, COQ, SINGE, MANTE, CHEVAL, VACHE, GRUE, SANGLIER, ANGUILLE, COBRA};
+    //deck construit
+    public static Carte TIGRE;
+    public static Carte DRAGON;
+    public static Carte CRAPAUD;
+    public static Carte LAPIN;
+    public static Carte CRABE;
+    public static Carte ELEPHANT;
+    public static Carte OIE;
+    public static Carte COQ;
+    public static Carte SINGE;
+    public static Carte MANTE;
+    public static Carte CHEVAL;
+    public static Carte VACHE;
+    public static Carte GRUE;
+    public static Carte SANGLIER;
+    public static Carte ANGUILLE;
+    public static Carte COBRA;
+    /**********************************/
+    
+
+    void attribuercoeff() {
+        Random r = new Random(); 
+        int coeff;
+        coeff = r.nextInt(16);//16 nombres ENTIERS ENTRE 0 ET 15
+        idCartes[0] = coeff;
+        for (int i = 1; i < idCartes.length; i++) {
+            coeff = r.nextInt(16);
+            for (int j = i; j > 0; j--) {
+                if (idCartes[j - 1] == coeff) {
+                    coeff = r.nextInt(16);
+                    j = i;
+                }
+            }
+            idCartes[i] = coeff;
+        }
+
+    }
+    
+    void attribuercarte () {
+        for (int i = 0; i > idCartes.length; i++) {
+            Cartesenjeu [i] = deck[idCartes[i]];
+        }
+    }
+
     void attribuerCouleursAuxJoueurs() {
         Random r = new Random();
         boolean couleur;
@@ -59,26 +108,20 @@ public class Partie {
         System.out.println(J1.NOM + " est de couleur " + J1.COULEUR);
         System.out.println(J2.NOM + " est de couleur " + J2.COULEUR);
 
-        // On donne des jetons aux joueurs
-        for (int i = 0; i < 21; i++) {
-
-            Pion J = new Pion(Listejoueurs[0].COULEUR);
-
-            J1.ajouterPion(J);
-
-            J2.ajouterPion(new Pion(J2.COULEUR));
-        }
-
+        // Les rois sont des conditions de Victoire perte du roi = perdu
+        
+        J1.ROIVIVANT = true;
+        J2.ROIVIVANT = true;
+        
         // Determine qui est le premier joueur
         Random r = new Random();
         boolean le_premier = r.nextBoolean();
         if (le_premier) {
             JOUEURCOURANT = Listejoueurs[0];
-        }
-        else {
+        } else {
             JOUEURCOURANT = Listejoueurs[1];
         }
-        
+
         plateau_de_jeu.afficherPlateau_de_jeuSurConsole();
 
     }
@@ -96,24 +139,34 @@ public class Partie {
         return choix;
     }
 
-    void jouerPion() {
-
+    void jouerPion(int i, int j) { //bordel a idées
+        carte.deplacement
+              if (JOUEURCOURANT == ListeJoueurs [0]) {
+              for (int i=0; i<carte.deplacement.length, i++){
+                  System.out.println("en X : " + carte.deplacement[i][0] + "en Y : " + carte.deplacement[i][1]);
+              }  
+              else {
+                 for (int i=0; i<carte.deplacement.length, i++){
+                      int x = carte.deplacement[i][0];
+                      int x1 = -x; //renversement pour joueur du haut
+                      int y = carte.deplacement[i][1];
+                      int y1 = -y;
+                  System.out.println("en X : " + carte.deplacement[i][0] + "en Y : " + carte.deplacement[i][1]);
+              }       
+                      }
+              }
+              
+        plateau_de_jeu.TabCase[i][j];
     }
 
     boolean tour_de_jeux() {//revoir
         System.out.println("C'est a " + JOUEURCOURANT.NOM + " de jouer (" + JOUEURCOURANT.COULEUR + ")");
-        if (JOUEURCOURANT.NOMBREPIONS == 1) {
-        System.out.println("Attention, il vous reste " + JOUEURCOURANT.NOMBREPIONS + " seul pion");    
-        }
-        else {
-        System.out.println("Il vous reste " + JOUEURCOURANT.NOMBREPIONS + " pions");
-        }
         int choix = menu_joueur();
         switch (choix) {
             case 1:
                 jouerPion();
                 return true;
-            
+
             case 9:
                 //quitter la partie
                 break;
@@ -132,7 +185,7 @@ public class Partie {
             plateau_de_jeu.afficherPlateau_de_jeuSurConsole();
 
             JOUEURCOURANT = ProchainJoueur(JOUEURCOURANT);
-//revoir les conditions de victoire
+        //revoir les conditions de victoire
         } while (plateau_de_jeu.etreGagnantePourJoueur(Listejoueurs[0]) != true && plateau_de_jeu.etreGagnantePourJoueur(Listejoueurs[1]) != true);
 
         if (plateau_de_jeu.etreGagnantePourJoueur(Listejoueurs[0]) == true && plateau_de_jeu.etreGagnantePourJoueur(Listejoueurs[1]) == true) {
@@ -143,4 +196,64 @@ public class Partie {
 
     }
 
+    public static void creationCartes() {
+        TIGRE = new Carte(new int[][]{{0, 2}, {0, -1}}, "TIGRE");
+        DRAGON = new Carte(new int[][]{{-2, 1}, {-1, -1}, {1, -1}, {2, 1}}, "DRAGON");
+        CRAPAUD = new Carte(new int[][]{{-2, 0}, {-1, 1}, {1, -1}}, "CRAPAUD");
+        LAPIN = new Carte(new int[][]{{1, 1}, {-1, -1}, {2, 0}}, "LAPIN");
+        CRABE = new Carte(new int[][]{{2, 0}, {-2, 0}, {0, 1}}, "CRABE");
+        ELEPHANT = new Carte(new int[][]{{1, 0}, {-1, 0}, {1, 1}, {-1, 1}}, "ELEPHANT");
+        OIE = new Carte(new int[][]{{-1, 1}, {1, -1}, {-1, 0}, {1, 0}}, "OIE");
+        COQ = new Carte(new int[][]{{-1, -1}, {1, 1}, {-1, 0}, {1, 0}}, "COQ");
+        SINGE = new Carte(new int[][]{{1, 1}, {-1, -1}, {1, -1}, {-1, 1}}, "SINGE");
+        MANTE = new Carte(new int[][]{{0, -1}, {-1, 1}, {1, 1}}, "MANTE");
+        CHEVAL = new Carte(new int[][]{{-1, 0}, {0, 1}, {0, -1}}, "CHEVAL");
+        VACHE = new Carte(new int[][]{{1, 0}, {0, 1}, {0, -1}}, "VACHE");
+        GRUE = new Carte(new int[][]{{-1, -1}, {1, -1}, {0, 1}}, "GRUE");
+        SANGLIER = new Carte(new int[][]{{-1, 0}, {1, 0}, {0, 1}}, "SANGLIER");
+        ANGUILLE = new Carte(new int[][]{{-1, 1}, {-1, -1}, {1, 0}}, "ANGUILLE");
+        COBRA = new Carte(new int[][]{{1, 1}, {1, -1}, {-1, 0}}, "COBRA");
+    }
+
+    public static Joueur getJoueurcourant (Joueur j) {
+        return j;
+    }
+    
+    
+    boolean etreGagnantePourJoueur(Joueur j) {// revoir le fonctionnement
+        //metre dans plateau avec qu'un paramètre joueur pour chaque cas
+        //ça passera creme je crois
+        
+        //soit roi mort
+        //soit roi adverse sur la bonne case
+        Joueur j1 = new Joueur("j1");
+        Joueur j2 = new Joueur("j2");
+        j1 = Partie.getJoueurcourant(Listejoueurs[0]);
+        j2 = Partie.getJoueurcourant(Listejoueurs[1]);
+        if (plateau_de_jeu.TabCase[0][2].PIONCOURANT.ROYAUTE == true && plateau_de_jeu.TabCase[0][2].PIONCOURANT.COULEUR == "bleu") {
+            if (j1.COULEUR == "bleu"){
+                System.out.println("C'est "+j1.NOM+" qui remporte la victoire !");
+            }
+            else {
+                System.out.println("C'est "+j2.NOM+" qui remporte la victoire !"); 
+            }
+        }
+        if (plateau_de_jeu.TabCase[COTE][2].PIONCOURANT.ROYAUTE == true && plateau_de_jeu.TabCase[COTE][2].PIONCOURANT.COULEUR == "rouge") {
+            if (j1.COULEUR == "bleu"){
+                System.out.println("C'est "+j1.NOM+" qui remporte la victoire !");
+            }
+            else {
+                System.out.println("C'est "+j2.NOM+" qui remporte la victoire !"); 
+            }
+        }
+        if (j1.ROIVIVANT == false) {
+            System.out.println("C'est "+j2.NOM+" qui remporte la victoire !");
+        }
+        if (j2.ROIVIVANT == false) {
+            System.out.println("C'est "+j1.NOM+" qui remporte la victoire !");
+        }
+        return false;
+    }
+    
+    
 }

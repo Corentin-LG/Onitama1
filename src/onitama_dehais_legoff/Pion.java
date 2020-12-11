@@ -15,8 +15,8 @@ public class Pion {
     String COULEUR;
     boolean ROYAUTE;
     
-    Pion(String coul){
-        COULEUR = coul;
+    Pion(){
+        COULEUR = null;
         ROYAUTE = false;
     }
     String lireNom(){

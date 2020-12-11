@@ -11,10 +11,11 @@ package onitama_dehais_legoff;
  */
 public class Plateau_de_jeu {
     
-    final static int COTE = 5;
-    Case TabCase[][] = new Case[COTE][COTE];
-    Carte CARTEENATTENTE = new Carte ("rien", 0, 0); //voir deck
-    Carte CARTECOURANTE = new Carte ("rien", 0, 0); //voir deck
+    private final static int COTE = 5;
+    public Case TabCase[][] = new Case[COTE][COTE];
+    public Carte CARTEENATTENTE = new Carte (new int[][]{{0, 0}, {0, 0}}, "CARTEENATTENTE");
+    public Carte CARTECOURANTE = new Carte (new int[][]{{0, 0}, {0, 0}}, "CARTECOURANTE");
+    
        
     
     Plateau_de_jeu() {
@@ -35,6 +36,13 @@ public class Plateau_de_jeu {
                 TabCase[i][j].PIONCOURANT = null;//gros nul le coco
             }
         }
+        for (int j = 0; j < COTE; j++) {
+            TabCase[0][j].PIONCOURANT.COULEUR = "rouge";
+            TabCase[COTE][j].PIONCOURANT.COULEUR = "bleu";
+
+        }
+        TabCase[0][2].PIONCOURANT.ROYAUTE = true;
+        TabCase[COTE][2].PIONCOURANT.ROYAUTE = true;
     }
     
     //en réponse à la méthode au dessus, rajouter une méthode "initialiser pion" pour placer les pions à leur etat initial
@@ -61,7 +69,7 @@ public class Plateau_de_jeu {
         System.out.println();
     }
 
-    boolean celluleOccupee(int ligne, int column) {
+    boolean caseOccupee(int ligne, int column) {
         if(TabCase[ligne][column].PIONCOURANT != null) {
             return true;
         }
@@ -71,14 +79,8 @@ public class Plateau_de_jeu {
     String lireCouleurDuPion(int ligne, int column) {
         return TabCase[ligne][column].lireCouleurDuPion();
     }
-
-    boolean etreGagnantePourJoueur(Joueur un_joueur) {
-        //soit roi mort
-        //soit roi adverse sur la bonne case
-        return false;
-    }
-
-    Boolean supprimerPion(int ligne, int colonne) {
+    
+    Boolean supprimerPion(int ligne, int colonne) {//revoir
         if (TabCase[ligne][colonne].PIONCOURANT == null) {
             return false;
         }
@@ -87,17 +89,15 @@ public class Plateau_de_jeu {
     }
     
         public boolean RenverserCarte (String nom_carte) {
-        Carte COPIE = new Carte ("rien du tout", 0, 0);
+        Carte COPIE = new Carte (new int[][]{{0, 0}, {0, 0}}, "COPIE");
         
         COPIE = CARTEENATTENTE; //suffisant manifestement
+        CARTEENATTENTE = CARTECOURANTE;
+        CARTECOURANTE = COPIE; //pivot
         
         /*COPIE.NOM = CARTEENATTENTE.NOM; //si je met dans deck ce code, on me dit "Non static contexte"
         COPIE.DEPLACEMENT [0] = CARTEENATTENTE.DEPLACEMENT [0];
         COPIE.DEPLACEMENT [1] = CARTEENATTENTE.DEPLACEMENT [1];*/
-        
-        CARTEENATTENTE = CARTECOURANTE;
-        CARTECOURANTE = COPIE; //pivot
-        
         
         return false; //pour l'intant osef
     }

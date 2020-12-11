@@ -16,8 +16,6 @@ public class Case {
     int X;
     int Y;
     
-    
-    // constructeur appelé a la création d'une cellule
     Case(){
         PIONCOURANT = null;
         
@@ -45,5 +43,12 @@ public class Case {
             return "vide";
         }
         return PIONCOURANT.COULEUR;
+    }
+    
+    int lireAbscisse(){
+        return X;
+    } 
+    int lireOrdonnee(){
+        return Y;
     } 
 }

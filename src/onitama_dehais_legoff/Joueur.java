@@ -13,22 +13,28 @@ public class Joueur {
     
     String NOM;
     String COULEUR;
-    Pion ListeJetons[] = new Pion [5]; //à remplir
+    boolean ROIVIVANT; //à remplir
     Carte ListeCartes[] = new Carte [2];//à remplir
-    int NOMBREPIONS;
     int NOMBRECARTES;
     
     Joueur(String nom_joueur){
         NOM = nom_joueur;
         COULEUR = null ; //créer une méthode pour donner la couleur
-        NOMBREPIONS = 0; //faire une boucle méthode init de remplissage
+        ROIVIVANT = false;
         NOMBRECARTES = 0;
     }
-    
-    void ajouterPion(Pion un_pion){
-        ListeJetons[NOMBREPIONS++] = un_pion;
+    String lireNom(){
+        return NOM;
     }
-    
+    String lireCouleur(){
+        return COULEUR;
+    }
+    boolean lireRoyVivant(){
+        return ROIVIVANT;
+    }
+    int lireNombredecarte(){
+        return NOMBRECARTES;
+    }   
     void affecterCouleur(String coul){
         COULEUR = coul;
     }  

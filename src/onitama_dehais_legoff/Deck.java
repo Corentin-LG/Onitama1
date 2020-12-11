@@ -13,8 +13,7 @@ import java.util.Random;
  */
 public class Deck {
     
-    Carte [] deck = new Carte [16];
-    Carte [] Cartesenjeu = new Carte [5];
+    /*
     int [] idCartes = new int [5];
     //je veux uartes = new int [5]ne méthode permettant de tirer aux hazard 5 nbr différents
     //chacuns de c'est nombres 
@@ -26,19 +25,7 @@ public class Deck {
     //tirer les 5 au hazard : liste fixe mais random tirage
       
         
-        public boolean creationDeck () {
-            for (int i=0; i<deck.length; i++) {
-                deck[i] = ;
-            }
-            
-            
-        }
-        
-        
-        
-        
-        
-        
+ 
         
         
         
@@ -91,6 +78,6 @@ public boolean TirageCartes () {
     return false; //a modifier si besion
 }
     //init carte abandonnée
-
+*/
 
 }
