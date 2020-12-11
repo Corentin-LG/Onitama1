@@ -17,7 +17,7 @@ public class Case {
     int Y;
     
     Case(){
-        PIONCOURANT = null;
+        PIONCOURANT = new Pion ();
         
     }
     

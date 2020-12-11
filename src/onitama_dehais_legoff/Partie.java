@@ -24,6 +24,8 @@ public class Partie {
     int[] idCartes = new int[5]; //5 tirages sans remise
     public Carte[] Cartesenjeu = new Carte[5]; //5 cartes courantes
     
+    public Pion PIONDEBASE = new Pion();
+    
     /**********************************/
     public Carte[] deck = new Carte[]{TIGRE, DRAGON, CRAPAUD, LAPIN, CRABE, ELEPHANT, OIE, COQ, SINGE, MANTE, CHEVAL, VACHE, GRUE, SANGLIER, ANGUILLE, COBRA};
     //deck construit
@@ -47,7 +49,7 @@ public class Partie {
     
 
     void attribuercoeff() {
-        Random r = new Random(); 
+        Random r = new Random();
         int coeff;
         coeff = r.nextInt(16);//16 nombres ENTIERS ENTRE 0 ET 15
         idCartes[0] = coeff;
@@ -91,8 +93,7 @@ public class Partie {
     }
 
     void initialiserPartie() {
-        //Mise en place de la grille
-        plateau_de_jeu.viderPlateau_de_jeu();
+        
 
         //Création des joueurs
         Scanner sc = new Scanner(System.in);
@@ -121,7 +122,9 @@ public class Partie {
         } else {
             JOUEURCOURANT = Listejoueurs[1];
         }
-
+        
+        //Mise en place du plateau
+        plateau_de_jeu.viderPlateau_de_jeu(); //potentiel pblm de null pointer
         plateau_de_jeu.afficherPlateau_de_jeuSurConsole();
 
     }
@@ -138,9 +141,10 @@ public class Partie {
         }
         return choix;
     }
-
+/*
     void jouerPion(int i, int j) { //bordel a idées
         carte.deplacement
+                //permet d'afficher les déplacements possibles du pion sélectionné
               if (JOUEURCOURANT == ListeJoueurs [0]) {
               for (int i=0; i<carte.deplacement.length, i++){
                   System.out.println("en X : " + carte.deplacement[i][0] + "en Y : " + carte.deplacement[i][1]);
@@ -151,20 +155,20 @@ public class Partie {
                       int x1 = -x; //renversement pour joueur du haut
                       int y = carte.deplacement[i][1];
                       int y1 = -y;
-                  System.out.println("en X : " + carte.deplacement[i][0] + "en Y : " + carte.deplacement[i][1]);
+                  System.out.println("en X : " + x1 + "en Y : " + y1);
               }       
                       }
               }
               
         plateau_de_jeu.TabCase[i][j];
-    }
+    }*/
 
     boolean tour_de_jeux() {//revoir
         System.out.println("C'est a " + JOUEURCOURANT.NOM + " de jouer (" + JOUEURCOURANT.COULEUR + ")");
         int choix = menu_joueur();
         switch (choix) {
             case 1:
-                jouerPion();
+                //jouerPion();
                 return true;
 
             case 9:
@@ -186,13 +190,13 @@ public class Partie {
 
             JOUEURCOURANT = ProchainJoueur(JOUEURCOURANT);
         //revoir les conditions de victoire
-        } while (plateau_de_jeu.etreGagnantePourJoueur(Listejoueurs[0]) != true && plateau_de_jeu.etreGagnantePourJoueur(Listejoueurs[1]) != true);
-
+        } while (/*plateau_de_jeu.etreGagnantePourJoueur(Listejoueurs[0]) != true && plateau_de_jeu.etreGagnantePourJoueur(Listejoueurs[1]) != true*/ 0<1);
+/*
         if (plateau_de_jeu.etreGagnantePourJoueur(Listejoueurs[0]) == true && plateau_de_jeu.etreGagnantePourJoueur(Listejoueurs[1]) == true) {
             System.out.println("C'est " + JOUEURCOURANT.NOM + " qui a gagné !");
         } else {
             System.out.println("C'est " + ProchainJoueur(JOUEURCOURANT).NOM + " qui a gagné !");
-        }
+        }*/
 
     }
 
@@ -239,7 +243,7 @@ public class Partie {
             }
         }
         if (plateau_de_jeu.TabCase[COTE][2].PIONCOURANT.ROYAUTE == true && plateau_de_jeu.TabCase[COTE][2].PIONCOURANT.COULEUR == "rouge") {
-            if (j1.COULEUR == "bleu"){
+            if (j1.COULEUR == "rouge"){
                 System.out.println("C'est "+j1.NOM+" qui remporte la victoire !");
             }
             else {

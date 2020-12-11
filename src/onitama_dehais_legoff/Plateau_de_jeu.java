@@ -16,7 +16,7 @@ public class Plateau_de_jeu {
     public Carte CARTEENATTENTE = new Carte (new int[][]{{0, 0}, {0, 0}}, "CARTEENATTENTE");
     public Carte CARTECOURANTE = new Carte (new int[][]{{0, 0}, {0, 0}}, "CARTECOURANTE");
     
-       
+    public Pion PIONDEBASE = new Pion();   
     
     Plateau_de_jeu() {
         for (int i = 0; i < COTE; i++) {
@@ -33,7 +33,7 @@ public class Plateau_de_jeu {
         //mettre les 5 pions de chaque joueur + mettre les noms des rois
         for (int i = 0; i < COTE; i++) {
             for (int j = 0; j < COTE; j++) {
-                TabCase[i][j].PIONCOURANT = null;//gros nul le coco
+                TabCase[i][j].PIONCOURANT = PIONDEBASE;//faire très attentention: si null pointeur créer une fonction remettre les pion de base
             }
         }
         for (int j = 0; j < COTE; j++) {
@@ -46,6 +46,12 @@ public class Plateau_de_jeu {
     }
     
     //en réponse à la méthode au dessus, rajouter une méthode "initialiser pion" pour placer les pions à leur etat initial
+    
+    void placerPionsurPlateau () { //revoir avec vider plateau
+        for (int i=0; i<COTE; i++) {
+            TabCase[0][i].PIONCOURANT = PIONDEBASE;
+        }
+    }
 
     
     void afficherPlateau_de_jeuSurConsole() {
@@ -58,13 +64,13 @@ public class Plateau_de_jeu {
                     System.out.print("\u001B[0m N ");
                 }
                 else {
-                    System.out.print(TabCase[i][j].PIONCOURANT);
+                    System.out.print(TabCase[i][j].PIONCOURANT); //revoir ce que ça affiche réellement, si besoin créer else if
                 }
             }
             System.out.println(" " + (i+1));
         }
         for(int i=0; i<COTE;i++){
-            System.out.print(" " + (i+1) + " ");
+            System.out.print(" " + (i+1) + " "); //a revoir
         }
         System.out.println();
     }
@@ -88,7 +94,8 @@ public class Plateau_de_jeu {
         return true;
     }
     
-        public boolean RenverserCarte (String nom_carte) {
+    
+        public boolean PermuterCarte (String nom_carte) {
         Carte COPIE = new Carte (new int[][]{{0, 0}, {0, 0}}, "COPIE");
         
         COPIE = CARTEENATTENTE; //suffisant manifestement
@@ -101,5 +108,10 @@ public class Plateau_de_jeu {
         
         return false; //pour l'intant osef
     }
+        public boolean RenverserCarte (String nom_carte) {
+        //changer les coordonnées en fonction de ta couleur
+        return false; //pour l'intant osef
+    }
+        
 }
 
