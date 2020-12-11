@@ -15,8 +15,7 @@ public class Plateau_de_jeu {
     public Case TabCase[][] = new Case[COTE][COTE];
     public Carte CARTEENATTENTE = new Carte (new int[][]{{0, 0}, {0, 0}}, "CARTEENATTENTE");
     public Carte CARTECOURANTE = new Carte (new int[][]{{0, 0}, {0, 0}}, "CARTECOURANTE");
-    
-    public Pion PIONDEBASE = new Pion();   
+  
     
     Plateau_de_jeu() {
         for (int i = 0; i < COTE; i++) {
@@ -33,13 +32,13 @@ public class Plateau_de_jeu {
         //mettre les 5 pions de chaque joueur + mettre les noms des rois
         for (int i = 0; i < COTE; i++) {
             for (int j = 0; j < COTE; j++) {
-                TabCase[i][j].PIONCOURANT = PIONDEBASE;//faire très attentention: si null pointeur créer une fonction remettre les pion de base
+                TabCase[i][j].PIONCOURANT = new Pion ();//faire très attentention: si null pointeur créer une fonction remettre les pion de base
             }
         }
         for (int j = 0; j < COTE; j++) {
-            //TabCase[0][j].PIONCOURANT.COULEUR = "rouge";
-            TabCase[COTE-1][j].PIONCOURANT.COULEUR = "bleu";
-            TabCase[0][j].PIONCOURANT.COULEUR = "rouge";
+            //TabCase[0][j].PIONCOURANT.COULEUR = "Rouge";
+            TabCase[COTE-1][j].PIONCOURANT.COULEUR = "Bleu";
+            TabCase[0][j].PIONCOURANT.COULEUR = "Rouge";
 
         }
         TabCase[0][2].PIONCOURANT.ROYAUTE = true;
@@ -50,7 +49,7 @@ public class Plateau_de_jeu {
     
     void placerPionsurPlateau () { //revoir avec vider plateau
         for (int i=0; i<COTE; i++) {
-            TabCase[0][i].PIONCOURANT = PIONDEBASE;
+            TabCase[0][i].PIONCOURANT = new Pion ();
         }
     }
 
@@ -61,11 +60,11 @@ public class Plateau_de_jeu {
         for (int i = COTE-1; i >= 0; i--) {
             for (int j = 0; j < COTE; j++) {
                 
-                if (TabCase[i][j].PIONCOURANT == null) {
+                if (TabCase[i][j].PIONCOURANT.COULEUR == null) {
                     System.out.print("\u001B[0m N ");
                 }
                 else {
-                    System.out.print(TabCase[i][j].PIONCOURANT.COULEUR.substring(0,1));
+                    System.out.print(" "+TabCase[i][j].PIONCOURANT.COULEUR.substring(0,1)+" ");
                 }
                 /*else {
                     System.out.print(TabCase[i][j].PIONCOURANT); //revoir ce que ça affiche réellement, si besoin créer else if
