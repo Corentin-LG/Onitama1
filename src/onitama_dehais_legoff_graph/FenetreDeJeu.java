@@ -419,7 +419,7 @@ public class FenetreDeJeu extends javax.swing.JFrame {
     private void btn_startActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_startActionPerformed
         panneau_infos_joueur.setVisible(true);
         panneau_infos_partie.setVisible(true);
-        initialiserPartie();
+        //initialiserPartie();
         panneau_grille.repaint();
         btn_start.setEnabled(false); //EMPECHE DE FAIRE PLUSIEURS TESTS
     }//GEN-LAST:event_btn_startActionPerformed
