@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package onitama_dehais_legoff;
+package onitama_dehais_legoff_graph;
 
 /**
  *

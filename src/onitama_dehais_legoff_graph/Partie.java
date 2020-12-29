@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package onitama_dehais_legoff;
+package onitama_dehais_legoff_graph;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -244,7 +244,32 @@ public class Partie {
     public static Joueur getJoueurcourant(Joueur j) {
         return j;
     }
+    /*
+        void jouerPion() {
+        Scanner sc = new Scanner(System.in);
+        boolean resultatAction;
+        System.out.println("Pour délpver votre pion, veuillez saisir une colonne :");
+        int colonne = sc.nextInt() - 1;
+        while (colonne > COTE || colonne < 0) {
+            System.out.println("Erreur : veuillez saisir une colonne :");
+            colonne = sc.nextInt() - 1;
+        }
+        System.out.println("Pour délpver votre pion, veuillez saisir une ligne :");
+        int ligne = sc.nextInt() - 1;
+        while (ligne > COTE || ligne < 0) {
+            System.out.println("Erreur : veuillez saisir une ligne :");
+            ligne = sc.nextInt() - 1;
+        }
 
+        resultatAction = plateau_de_jeu.ajouterJetonDansColonne(JoueurCourant, colonne);
+        while (!resultatAction) {
+            System.out.println("La collone est pleine veuillez saisir une autre colonne :");
+            colonne = sc.nextInt() - 1;
+            resultatAction = plateau_de_jeu.ajouterJetonDansColonne(JoueurCourant, colonne);
+        }
+
+    }
+*/
     boolean etreGagnantePourJoueur(Joueur j) {// revoir le fonctionnement
         //metre dans plateau avec qu'un paramètre joueur pour chaque cas
         //ça passera creme je crois
