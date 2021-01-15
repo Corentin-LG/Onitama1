@@ -5,38 +5,57 @@
  */
 package onitama_dehais_legoff_graph;
 
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  *
  * @author cocol
  */
 public class Joueur {
     
-    String NOM;
-    String COULEUR;
-    boolean ROIVIVANT; //à remplir
-    Carte ListeCartes[] = new Carte [2];//à remplir
-    int NOMBRECARTES;
+    private String nom;
+    private String couleur;
+    private boolean roiVivant; //à remplir
+    private List<Carte> cartes;//à remplir
     
-    Joueur(String nom_joueur){
-        NOM = nom_joueur;
-        COULEUR = null ; //créer une méthode pour donner la couleur
-        ROIVIVANT = false;
-        NOMBRECARTES = 0;
+    public Joueur(String nom){
+        this.nom = nom;
+        this.couleur = null ; //créer une méthode pour donner la couleur
+        this.roiVivant = true;
+        this.cartes = new ArrayList<>();
     }
-    String lireNom(){
-        return NOM;
+
+    public List<Carte> getCartes(){
+        return this.cartes;
     }
-    String lireCouleur(){
-        return COULEUR;
+
+    public void addCarte(Carte carte){
+        this.cartes.add(carte);
     }
-    boolean lireRoyVivant(){
-        return ROIVIVANT;
+
+    public void supprCarte(Carte carte){
+        this.cartes.remove(carte);
     }
-    int lireNombredecarte(){
-        return NOMBRECARTES;
-    }   
-    void affecterCouleur(String coul){
-        COULEUR = coul;
+
+    public String lireNom(){
+        return this.nom;
+    }
+
+    public String lireCouleur(){
+        return this.couleur;
+    }
+
+    public void setCouleur(String couleur){
+        this.couleur = couleur;
+    }
+
+    public boolean lireRoyVivant(){
+        return roiVivant;
+    } 
+
+    public void affecterCouleur(String coul){
+        couleur = coul;
     }  
     
 }

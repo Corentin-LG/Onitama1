@@ -5,17 +5,29 @@
  */
 package onitama_dehais_legoff_graph;
 
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  *
  * @author cocol
  */
 public class Carte {
-    String NOM;
-    int [][] DEPLACEMENT; //parce que c'est plus facile avec les coo, enfin je crois XD
 
-    public Carte (int [][] deplacement, String nom){
-        this.DEPLACEMENT = deplacement;
-	this.NOM  = nom;
+    private String nom;
+    private List<Coordonnees> deplacements; //parce que c'est plus facile avec les coo, enfin je crois XD
+
+    public Carte (List<Coordonnees> deplacements, String nom){
+        this.deplacements = deplacements;
+	    this.nom  = nom;
+    }
+
+    public String getNom(){
+        return this.nom;
+    }
+
+    public List<Coordonnees> getDeplacements(){
+        return this.deplacements;
     }
   
 }

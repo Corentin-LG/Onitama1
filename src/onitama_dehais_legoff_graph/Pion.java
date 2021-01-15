@@ -11,27 +11,38 @@ package onitama_dehais_legoff_graph;
  */
 public class Pion {
     
-    String NOM; //où mettre le nom ?
-    String COULEUR;
-    boolean ROYAUTE;
+    private String nom; //où mettre le nom ?
+    private String couleur;
+    private boolean royaute;
     
-    Pion(){
-        COULEUR = null;
-        ROYAUTE = false;
+    public Pion(){
+        this.couleur = null;
+        this.royaute = false;
     }
-    String lireNom(){
-        return NOM;
+
+    public String lireNom(){
+        return this.nom;
     }
-    String lireCouleur(){
-        return COULEUR;
+
+    public String lireCouleur(){
+        return this.couleur;
     }
-    boolean lireRoyaute(){
-        return ROYAUTE;
+
+    public boolean lireRoyaute(){
+        return this.royaute;
+    }
+
+    public void attribuerCouleur(String couleur){
+        this.couleur = couleur;
+    }
+
+    public void setRoyaute(boolean royaute){
+        this.royaute = royaute;
     }
     
     @Override
     public String toString(){
-        if("Rouge".equals(COULEUR))
+        if(this.couleur.equals("Rouge"))
             return "\u001B[31m O ";
         return "\u001B[33m O ";
     }

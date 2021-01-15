@@ -11,11 +11,55 @@ package onitama_dehais_legoff_graph;
  */
 public class FenetreDeJeu extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FenetreDeJeu
-     */
+    Joueur Listejoueurs[] = new Joueur[2];
+    Joueur JoueurCourant;
+    Plateau_de_jeu plateau_de_jeu = new Plateau_de_jeu();
+
     public FenetreDeJeu() {
         initComponents();
+        javax.swing.JToggleButton[][] btn = new javax.swing.JToggleButton[][]{{jToggleButton1, jToggleButton2, jToggleButton3, jToggleButton4, jToggleButton5}, {jToggleButton6, jToggleButton7, jToggleButton8, jToggleButton9, jToggleButton10}, {jToggleButton11, jToggleButton12, jToggleButton13, jToggleButton14, jToggleButton15}, {jToggleButton16, jToggleButton17, jToggleButton18, jToggleButton19, jToggleButton20}, {jToggleButton21, jToggleButton22, jToggleButton23, jToggleButton24, jToggleButton25}};
+
+        panneau_infos_joueur.setVisible(false);
+        panneau_infos_partie.setVisible(false);
+
+        Partie partiecourante = new Partie();
+
+        for (int i = partiecourante.COTE; i >= 0; i--) {
+            for (int j = 0; j < partiecourante.COTE; j++) {
+                CaseGraphique caseGraph = new CaseGraphique(plateau_de_jeu.TabCase[i][j]);
+
+                caseGraph.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+
+                        Case c = caseGraph.caseAssociee;
+                        if (c.PIONCOURANT == null) {
+                            return;
+                        }
+                        if (c.PIONCOURANT.COULEUR.equals(JoueurCourant.COULEUR)) {
+                            textemessage.setText("le joueur " + JoueurCourant.NOM + " récupère un de ses jetons");
+                            Jeton j_recup = c.recupererJeton();
+                            //il faut regarder dans chacunes des colonnes 
+                            JoueurCourant.ajouterJeton(j_recup);
+                            reactiver_boutons();
+                            joueurSuivant();
+                            ;
+                        } else {
+                            if (JoueurCourant.nombreDesintegrateurs > 0) {
+                                textemessage.setText("le joueur " + JoueurCourant.Nom + " veut désintégrer un jeton");
+                                c.supprimerJeton();
+                                JoueurCourant.utiliserDesintegrateur();
+                                reactiver_boutons();
+                                joueurSuivant();
+                            } else {
+                                return;
+                            }
+                        }
+
+                        partiecourante.possibilitededeplacement(partiecourante.DRAGON, 3, 2);//futur test
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -422,6 +466,7 @@ public class FenetreDeJeu extends javax.swing.JFrame {
         //initialiserPartie();
         panneau_grille.repaint();
         btn_start.setEnabled(false); //EMPECHE DE FAIRE PLUSIEURS TESTS
+        //afficherdeplacementspossibles
     }//GEN-LAST:event_btn_startActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
@@ -558,6 +603,7 @@ public class FenetreDeJeu extends javax.swing.JFrame {
             }
         });
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_start;

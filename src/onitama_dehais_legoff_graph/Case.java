@@ -12,43 +12,56 @@ package onitama_dehais_legoff_graph;
 public class Case {
     
     
-    Pion PIONCOURANT;
-    int X;
-    int Y;
+    private Pion piontCourant;
+    private int x;
+    private int y;
     
-    Case(){
-        PIONCOURANT = new Pion ();
-        
+    public Case(){
+        this.piontCourant = new Pion ();
+    }
+
+    public Case(int x, int y){
+        this();
+        this.x = x;
+        this.y = y;
+    }
+
+    public Pion getPion(){
+        return this.piontCourant;
+    }
+
+    public void setPion(Pion newPion){
+        this.piontCourant = newPion;
     }
     
-    boolean affecterPion(Pion un_pion){
-        if(PIONCOURANT == null){
-            PIONCOURANT = un_pion;
+    public boolean affecterPion(Pion unPion){
+        if(this.piontCourant == null){
+            this.piontCourant = unPion;
             return true;
         }
         return false;
     }
        
     
-    boolean supprimerPion(){
-        if(PIONCOURANT == null){
+    public boolean supprimerPion(){
+        if(this.piontCourant == null){
             return false;
         }
-        PIONCOURANT = null;
+        this.piontCourant = null;
         return true;
     }
 
-    String lireCouleurDuPion(){
-        if(PIONCOURANT == null){
+    public String lireCouleurDuPion(){
+        if(this.piontCourant == null){
             return "vide";
         }
-        return PIONCOURANT.COULEUR;
+        return this.piontCourant.lireCouleur();
     }
     
-    int lireAbscisse(){
-        return X;
+    public int lireAbscisse(){
+        return this.x;
     } 
-    int lireOrdonnee(){
-        return Y;
+    public int lireOrdonnee(){
+        return this.y;
     } 
 }
