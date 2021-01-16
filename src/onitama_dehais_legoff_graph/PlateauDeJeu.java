@@ -35,7 +35,6 @@ public class PlateauDeJeu {
             }
             this.tabCase.add(temp);
         }
-        this.carteEnAttente = new Carte(null, "carteEnAttente");
         this.carteCourante = new Carte(null, "carteCourante");
 
         this.listeJoueurs = new ArrayList<>();

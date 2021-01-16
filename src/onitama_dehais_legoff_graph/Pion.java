@@ -14,10 +14,25 @@ public class Pion {
     private String nom; //où mettre le nom ?
     private String couleur;
     private boolean royaute;
+    private Coordonnees coordonnees;
     
     public Pion(){
         this.couleur = null;
         this.royaute = false;
+    }
+    
+    public Pion(String couleur){
+        this.couleur = couleur;
+        this.royaute = false;
+    }
+
+    public Pion(String couleur, Coordonnees coordonnees){
+        this(couleur);
+        this.coordonnees = coordonnees;
+    }
+
+    public Pion(String couleur, int x, int y){
+        this(couleur, new Coordonnees(x, y));
     }
 
     public String lireNom(){
@@ -30,6 +45,14 @@ public class Pion {
 
     public boolean lireRoyaute(){
         return this.royaute;
+    }
+
+    public Coordonnees getCoordonnees(){
+        return this.coordonnees;
+    }
+
+    public void setCoordonnes(Coordonnees coordonnees){
+        this.coordonnees = coordonnees;
     }
 
     public void attribuerCouleur(String couleur){

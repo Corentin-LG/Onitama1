@@ -29,5 +29,36 @@ public class Carte {
     public List<Coordonnees> getDeplacements(){
         return this.deplacements;
     }
+
+    @Override
+    public String toString(){
+        String toPrint = "La carte : " + this.nom + " permet les deplacements :\n";
+        for (int i = 0; i<5; i++){
+            String temp = "";
+            for (int j = 0; j<5; j++){
+                Coordonnees co = new Coordonnees(i-2,j-2);
+                if (i == 2 && j == 2){
+                    temp += " D";
+                }
+                else {
+                    boolean ok = false; 
+                    for (Coordonnees dep : this.deplacements){
+                        if (co.equals(dep)){
+                            ok = true;
+                        }
+                    }
+                    if (ok){
+                        temp += " P";
+                    }
+                    else {
+                        temp += " I";
+                    }
+                }
+            }
+            temp += "\n";
+            toPrint += temp;
+        }
+        return toPrint;
+    }
   
 }

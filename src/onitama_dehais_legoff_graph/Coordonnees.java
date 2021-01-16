@@ -24,4 +24,18 @@ public class Coordonnees {
     public void setY(int y){
         this.y = y;
     }
+
+    @Override
+    public boolean equals (Object o){
+        if (o == null){
+            return false;
+        }
+        if (o instanceof Coordonnees){
+            Coordonnees autreCo = (Coordonnees)o;
+            return this.x == autreCo.x && this.y == autreCo.y;
+        }
+        else{
+            return false;
+        }
+    }
 }
