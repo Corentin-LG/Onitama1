@@ -35,7 +35,7 @@ public class Pion {
         this(couleur, new Coordonnees(x, y));
     }
 
-    public boolean appartientA(Jouer joueur){
+    public boolean appartientA(Joueur joueur){
         if (joueur == null){
             return false;
         }

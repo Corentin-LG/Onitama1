@@ -38,10 +38,11 @@ public class PlateauDeJeu {
         this.carteCourante = new Carte(null, "carteCourante");
 
         this.listeJoueurs = new ArrayList<>();
-        this.listeJoueurs.add(new Joueur(nomJ1));
-        this.listeJoueurs.add(new Joueur(nomJ2));
+        this.listeJoueurs.add(new Joueur(nomJ1,"Bleu"));
+        this.listeJoueurs.add(new Joueur(nomJ2,"Rouge"));
         this.joueurCourant = this.listeJoueurs.get(0);
-
+        System.out.println(this.listeJoueurs);
+        System.out.println(this.joueurCourant);
 
         // attribution des cartes 
         List<Carte> mains = this.creerMains(); // on recupere les 5 cartes
@@ -155,24 +156,26 @@ public class PlateauDeJeu {
         //mettre les 5 pions de chaque joueur + mettre les noms des rois
         for (int i = 0; i < COTE; i++) {
             for (int j = 0; j < COTE; j++) {
-                this.getCase(i, j).setPion(new Pion());//faire très attentention: si null pointeur créer une fonction remettre les pion de base
+                this.getCase(i, j).setPion(null);//faire très attentention: si null pointeur créer une fonction remettre les pion de base
             }
         }
+        this.placerPionsurPlateau();
         for (int j = 0; j < COTE; j++) {
             //TabCase[0][j].PIONCOURANT.COULEUR = "Rouge";
-            this.getCase(COTE-1, j).getPion().attribuerCouleur("Bleu");
-            this.getCase(0, j).getPion().attribuerCouleur("Rouge");
+            this.getCase(j, COTE-1).getPion().attribuerCouleur("Bleu");
+            this.getCase(j, 0).getPion().attribuerCouleur("Rouge");
 
         }
-        this.getCase(0, 2).getPion().setRoyaute(true);
-        this.getCase(COTE-1, 2).getPion().setRoyaute(true);
+        this.getCase(2, 0).getPion().setRoyaute(true);
+        this.getCase(2, COTE-1).getPion().setRoyaute(true);
     }
     
     //en réponse à la méthode au dessus, rajouter une méthode "initialiser pion" pour placer les pions à leur etat initial
     
     public void placerPionsurPlateau () { //revoir avec vider plateau
         for (int i=0; i<COTE; i++) {
-            this.getCase(0, i).setPion(new Pion());
+            this.getCase(i, 0).setPion(new Pion());
+            this.getCase(i, COTE-1).setPion(new Pion());
         }
     }
 
@@ -180,20 +183,20 @@ public class PlateauDeJeu {
     public void afficherPlateauDeJeuSurConsole() {
  
         // boucle inversée : on affiche d'abord la ligne du haut
-        for (int i = COTE-1; i >= 0; i--) {
-            for (int j = 0; j < COTE; j++) {
+        for (int y = COTE-1; y >= 0; y--) {
+            for (int x = 0; x < COTE; x++) {
                 
-                if (this.getCase(i, j).getPion().lireCouleur() == null) {
+                if (this.getCase(x, y).getPion() == null) {
                     System.out.print("\u001B[0m N ");
                 }
                 else {
-                    System.out.print(" "+this.getCase(i, j).getPion().lireCouleur().substring(0,1)+" ");
+                    System.out.print(" "+this.getCase(x, y).getPion().lireCouleur().substring(0,1)+" ");
                 }
                 /*else {
                     System.out.print(TabCase[i][j].PIONCOURANT); //revoir ce que ça affiche réellement, si besoin créer else if
                 }*/
             }
-            System.out.println(" " + (i+1));
+            System.out.println(" " + (y+1));
         }
         for(int i=0; i<COTE;i++){
             System.out.print(" " + (i+1) + " "); //a revoir

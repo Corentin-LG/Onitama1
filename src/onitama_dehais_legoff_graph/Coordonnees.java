@@ -1,6 +1,6 @@
 package onitama_dehais_legoff_graph;
 
-public class Coordonnees {
+public class Coordonnees{
     private int x;
     private int y;
 
@@ -25,10 +25,10 @@ public class Coordonnees {
         this.y = y;
     }
 
-    public getDeplacements(Coordonnees pointDeDepart){
+    public Coordonnees getDeplacements (Coordonnees pointDeDepart ){
         // ici this est le point d'arrivée
-        int x = this.x-pointDeDepart.x
-        int y = this.y-pointDeDepart.y
+        int x = this.x-pointDeDepart.x;
+        int y = this.y-pointDeDepart.y;
         return new Coordonnees(x, y);
     }
 

@@ -19,9 +19,9 @@ public class Joueur {
     private boolean roiVivant; //à remplir
     private List<Carte> cartes;//à remplir
     
-    public Joueur(String nom){
+    public Joueur(String nom, String couleur ){
         this.nom = nom;
-        this.couleur = null ; //créer une méthode pour donner la couleur
+        this.couleur = couleur ; //créer une méthode pour donner la couleur
         this.roiVivant = true;
         this.cartes = new ArrayList<>();
     }

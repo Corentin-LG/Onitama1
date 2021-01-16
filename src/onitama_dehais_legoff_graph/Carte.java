@@ -51,7 +51,7 @@ public class Carte {
                         temp += " P";
                     }
                     else {
-                        temp += " I";
+                        temp += " .";
                     }
                 }
             }
