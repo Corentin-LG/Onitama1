@@ -35,6 +35,13 @@ public class Pion {
         this(couleur, new Coordonnees(x, y));
     }
 
+    public boolean appartientA(Jouer joueur){
+        if (joueur == null){
+            return false;
+        }
+        return this.couleur.equals(joueur.lireCouleur());
+    }
+
     public String lireNom(){
         return this.nom;
     }

@@ -26,13 +26,107 @@ public class Partie {
         PlateauDeJeu plateau = Partie.initialiserPartie();
         boolean fini = false;
         while (!fini){
-            int action = Partie.menuJoueur();
             System.out.println("C'est a " + plateau.getJoueurCourant().lireNom() + " de jouer (" + plateau.getJoueurCourant().lireCouleur() + ")");
-            int choix = menuJoueur();
+            int choix = Partie.menuJoueur();
             switch (choix) {
                 case 1:
+                    // affichage des cartes
                     System.out.println("Voici les cartes que vous avez :");
-                    System.out.println(plateau.getJoueurCourant().getCartes().get(0).toString());
+                    System.out.println(plateau.getCarteJoueurCourant(0).toString());
+                    System.out.println(plateau.getCarteJoueurCourant(1).toString());
+                    System.out.println("La carte qui est en attente est la suivate :");
+                    System.out.println(plateau.getCarteEnAttente().toString());
+
+                    // choix de la carte a jouer
+                    choix = Partie.menuCarte();
+                    Carte carteAJouer = plateau.getCarteJoueurCourant(choix-1);
+
+                    // choix du poin a jouer
+                    Coordonnees coMonPion = Partie.menuCoordonnes();
+                    Pion monPion = plateau.getCase(coMonPion.getX(), coMonPion.getY());
+                    while (monPion == null || !(monPion.appartientA(plateau.getJoueurCourant()))){
+                        System.out.println("La case sélectionnée ne correspond pas à l'un de vos pions");
+                        Coordonnees coMonPion = Partie.menuCoordonnes();
+                        Pion monPion = plateau.getCase(coMonPion.getX(), coMonPion.getY());
+                    }
+
+                    // choix de la destination
+                    Coordonnees coDestination = Partie.menuCoordonnes();
+                    Coordonnees testDeplacement = coDestination.getDeplacements(coMonPion);
+                    boolean actionValide = false;
+                    for (Coordonnees destPossible : carteAJouer.getDeplacements()){
+                        if (testDeplacement.equals(destPossible)){
+                            actionValide = true;
+                        }
+                    }
+
+                    boolean continuer = true;
+                    while (!actionValide){
+                        System.out.println("Vous ne pouvez y aller!")
+                        choix = Partie.menuChoixContinuerDepInvalide();
+                        switch(choix){
+                            case 1: coDestination = Partie.menuCoordonnes();
+                                    testDeplacement = coDestination.getDeplacements(coMonPion);
+                                    actionValide = false;
+                                    for (Coordonnees destPossible : carteAJouer.getDeplacements()){
+                                        if (testDeplacement.equals(destPossible)){
+                                            actionValide = true;
+                                        }
+                                    }
+                                    break;
+                            case 2: continuer = false; break;
+                        } 
+
+                    }
+
+                    if (continuer){
+                        plateau.getCase(coMonPion).setPion(null);
+                        Pion pionPresent = plateau.getCase(coDestination).getPion();
+                        if (pionPresent != null){
+                            if (pionPresent.appartientA(plateau.getJoueurCourant())){
+                                System.out.println("Vous ne pouvez pas manger votre pion");
+                            }
+                            else {
+                                if (pionPresent.lireRoyaute()){
+                                    fini = true;
+                                }
+                                else {
+                                    plateau.getCase(coDestination).setPion(monPion);
+                                    plateau.setCarteCourante(carteAJouer);
+                                    plateau.permuterCarte();
+                                    plateau.getCarteJoueurCourant().getCartes().remove(carteAJouer);
+                                    plateau.getCarteJoueurCourant().getCartes().add(plateau.getCarteCourante());
+                                    plateau.updateJoueurCourant();
+                                }
+                            }
+                        }
+                        else {
+                            if (monPion.lireRoyaute()){
+                                if (coDestination.equals(new Coordonnees(0, 2) && plateau.getJoueurCourant().lireCouleur().equals("Bleu"))){
+                                    fini = true;
+                                }
+                                else if (coDestination.equals(new Coordonnees(4, 2) && plateau.getJoueurCourant().lireCouleur().equals("Rouge"))) {
+                                    fini = true;
+                                }
+                                else {
+                                    plateau.getCase(coDestination).setPion(monPion);
+                                    plateau.setCarteCourante(carteAJouer);
+                                    plateau.permuterCarte();
+                                    plateau.getCarteJoueurCourant().getCartes().remove(carteAJouer);
+                                    plateau.getCarteJoueurCourant().getCartes().add(plateau.getCarteCourante());
+                                    plateau.updateJoueurCourant();
+                                }
+                            }
+                            else {
+                                plateau.getCase(coDestination).setPion(monPion);
+                                plateau.setCarteCourante(carteAJouer);
+                                plateau.permuterCarte();
+                                plateau.getCarteJoueurCourant().getCartes().remove(carteAJouer);
+                                plateau.getCarteJoueurCourant().getCartes().add(plateau.getCarteCourante());
+                                plateau.updateJoueurCourant();
+                            }
+                        }
+                    }
                     break;
 
                 case 9:
@@ -40,6 +134,7 @@ public class Partie {
             }
             fini = true;
         }
+        System.out.println("Le joueur : " + plateau.getJoueurCourant().lireNom() + "a gagné");
     }
 
 // *************************************************************************************************************************************
@@ -74,11 +169,56 @@ public class Partie {
         System.out.println("1) Jouer un Pion");
         System.out.println("9) Quiter");
         int choix = sc.nextInt();
-        while (choix != 1 || choix != 9) {
+        while (choix != 1 && choix != 9) {
             System.out.println("Erreur : Entrer un choix qui existe :");
             choix = sc.nextInt();
         }
         return choix;
+    }
+
+    public static int menuCarte() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Quelle carte voulez prendre ?");
+        System.out.println("1) Carte 1");
+        System.out.println("2) Carte 2");
+        int choix = sc.nextInt();
+        while (choix != 1 && choix != 2) {
+            System.out.println("Erreur : Entrer un choix qui existe :");
+            choix = sc.nextInt();
+        }
+        return choix;
+    }
+
+    public static int menuChoixContinuerDepInvalide() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Qe voulez vous faire ?");
+        System.out.println("1) Choisir une nouvelle destination");
+        System.out.println("2) Choisir une nouvelle carte");
+        int choix = sc.nextInt();
+        while (choix != 1 && choix != 2) {
+            System.out.println("Erreur : Entrer un choix qui existe :");
+            choix = sc.nextInt();
+        }
+        return choix;
+    }
+
+    public static Coordonnees menuCoordonnes() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Sur quelle ligne est le pion que vous voulez déplacer ?");
+        int choix = sc.nextInt();
+        while (choix <= 0 || choix >= 6) {
+            System.out.println("Erreur : Entrer un choix qui existe :");
+            choix = sc.nextInt();
+        }
+        int x  = choix;
+        System.out.println("Sur quelle colonne est le pion que vous voulez déplacer ?");
+        int choix = sc.nextInt();
+        while (choix <= 0 || choix >= 6) {
+            System.out.println("Erreur : Entrer un choix qui existe :");
+            choix = sc.nextInt();
+        }
+        int y  = choix;
+        return new Coordonnees(x, y);
     }
 
     // void afficherdeplacementspossibles(int i, int j) {

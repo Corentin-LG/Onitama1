@@ -25,6 +25,13 @@ public class Coordonnees {
         this.y = y;
     }
 
+    public getDeplacements(Coordonnees pointDeDepart){
+        // ici this est le point d'arrivée
+        int x = this.x-pointDeDepart.x
+        int y = this.y-pointDeDepart.y
+        return new Coordonnees(x, y);
+    }
+
     @Override
     public boolean equals (Object o){
         if (o == null){

@@ -102,6 +102,10 @@ public class PlateauDeJeu {
      * *******************************
      */
 
+    public Carte getCarteJoueurCourant(int index){
+        return this.joueurCourant.getCartes().get(index);
+    }
+
     public Joueur getJoueurCourant(){
         return this.joueurCourant;
     }
@@ -116,6 +120,10 @@ public class PlateauDeJeu {
 
     public Case getCase(int x, int y){
         return this.tabCase.get(x).get(y);
+    }
+
+    public Case getCase(Coordonnees co){
+        return this.tabCase.get(co.getX()).get(co.getY());
     }
 
     public Carte getCarteCourante(){
@@ -210,7 +218,7 @@ public class PlateauDeJeu {
     }
     
     
-    public boolean permuterCarte (String nomCarte) {//parametre inutile je pense
+    public boolean permuterCarte () {
         
         Carte copie = this.carteEnAttente; //suffisant manifestement
         this.carteEnAttente = this.carteCourante;
